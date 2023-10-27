@@ -30,7 +30,7 @@ myTuple[1] = 42
 let obj: object
 obj = []
 
-console.log(typeof obj)
+//console.log(typeof obj)
 
 obj = bands
 obj = {}
@@ -67,7 +67,7 @@ const greetGuitarist = (guitarist: Guitarist) => {
     return `Hello!`  
 }
 
-console.log(greetGuitarist(jp))
+//console.log(greetGuitarist(jp))
 
 // Enums
 // "Unlike most TypeScript features, Enums are not a tyoe-level addition to Javascript but something added to the language and runtime"
@@ -86,12 +86,133 @@ type stringOrNum = string | number
 type stringOrNuumberArray = (stringOrNum)[]
 type UserId = stringOrNum
 
+type Guitarist_type = {
+    name: string,
+    active: boolean, 
+    albums: stringOrNuumberArray,
+}
+
 // Litereal Types
 let myName: 'John'
 
 let username: 'John' | 'Jane' | 'Dave'
 username = 'Jane'
 
+// functions
+
+const add = (a: number, b: number): number => {
+    return a + b
+}
+
+const logMsg = (message: any): void => {
+    console.log(message)
+}
+
+//logMsg('Hello')
+//logMsg(add(2,3))
+//logMsg(true)
+
+let subtract = function (c: number, d: number):
+number {
+    return c - d
+}
+
+type mathFunction = (a: number, b: number) => number
+//interface mathFunction { 
+ //   (a: number, b: number): number
+//} // lo mismo que arriba
+
+let multiply: mathFunction = function (c, d) {
+    return c * d
+}
+
+// logMsg(multiply(23,3))
+
+
+// Optional parameters
+
+const addAll = (a: number, b: number, c?: number):
+number => {
+    // Type Guard
+    if (typeof c !== 'undefined') {
+        return a + b + c
+    }
+    return a + b
+}
+
+const sumAll = (a: number = 10, b: number, c: number = 2):
+number => {
+    return a + b + c // No Typeguard needed
+}
+
+// logMsg(addAll(1,2,3))
+// logMsg(addAll(1,2))
+// logMsg(sumAll(2,3))
+// logMsg(sumAll(undefined, 3))
+
+
+// Rest Parameters
+const total = (a: number, ...nums: number[]): number => {
+    return a + nums.reduce((prev, curr) => prev + curr)
+}
+
+//logMsg(total(10, 2, 3))
+
+
+// Never
+
+const createError = (errMsg: string) => {
+    throw new Error(errMsg)
+}
+
+const infinite = (): void => {
+    let i: number = 1
+    while (true) {
+        i++
+        if( i > 100) break
+    }
+
+}
+
+// Custom type guard
+const isNumber = (value: any): boolean => {
+    return typeof value === 'number'
+        ? true : false
+}
+
+// Use of the never type
+const numberOrString = (value: number | string):
+string => {
+    if (typeof value === 'string') return 'string'
+    if (isNumber(value)) return 'number'
+    return createError('This should never happen!')
+} 
 
 
 
+//////////// TYPE CASTING - ASSERTIONS ////////////
+
+type One = string
+type Two = string | number
+type Three = 'hello'
+
+// Convert to more or less specefic type
+
+let a: One = 'hello'
+let b = a as Two // less specific type
+let c = a as Three // more specific type
+
+let d = <One>'world' // less specific type
+let e = <string | number>'world'
+
+const addOrConcat = (a: number, b: number, c: 'add' | 'concat'): number | string => {
+    if (c === 'add') return a + b
+    return `${a}${b}`
+}
+
+let myVal: string = addOrConcat(2,2,'concat') as string
+
+// Be careful! TS sees no problem - but a string is returned
+let nextVal: number = addOrConcat(2,2,'concat' /* esto esta mal */) as number
+
+10 as string

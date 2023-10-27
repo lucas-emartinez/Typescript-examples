@@ -18,7 +18,7 @@ myTuple[1] = 42;
 // Objects
 let obj;
 obj = [];
-console.log(typeof obj);
+//console.log(typeof obj)
 obj = bands;
 obj = {};
 const exampleObj = {
@@ -42,7 +42,7 @@ const greetGuitarist = (guitarist) => {
     }
     return `Hello!`;
 };
-console.log(greetGuitarist(jp));
+//console.log(greetGuitarist(jp))
 // Enums
 // "Unlike most TypeScript features, Enums are not a tyoe-level addition to Javascript but something added to the language and runtime"
 var Grade;
@@ -57,3 +57,83 @@ var Grade;
 let myName;
 let username;
 username = 'Jane';
+// functions
+const add = (a, b) => {
+    return a + b;
+};
+const logMsg = (message) => {
+    console.log(message);
+};
+//logMsg('Hello')
+//logMsg(add(2,3))
+//logMsg(true)
+let subtract = function (c, d) {
+    return c - d;
+};
+//interface mathFunction { 
+//   (a: number, b: number): number
+//} // lo mismo que arriba
+let multiply = function (c, d) {
+    return c * d;
+};
+// logMsg(multiply(23,3))
+// Optional parameters
+const addAll = (a, b, c) => {
+    // Type Guard
+    if (typeof c !== 'undefined') {
+        return a + b + c;
+    }
+    return a + b;
+};
+const sumAll = (a = 10, b, c = 2) => {
+    return a + b + c; // No Typeguard needed
+};
+// logMsg(addAll(1,2,3))
+// logMsg(addAll(1,2))
+// logMsg(sumAll(2,3))
+// logMsg(sumAll(undefined, 3))
+// Rest Parameters
+const total = (a, ...nums) => {
+    return a + nums.reduce((prev, curr) => prev + curr);
+};
+//logMsg(total(10, 2, 3))
+// Never
+const createError = (errMsg) => {
+    throw new Error(errMsg);
+};
+const infinite = () => {
+    let i = 1;
+    while (true) {
+        i++;
+        if (i > 100)
+            break;
+    }
+};
+// Custom type guard
+const isNumber = (value) => {
+    return typeof value === 'number'
+        ? true : false;
+};
+// Use of the never type
+const numberOrString = (value) => {
+    if (typeof value === 'string')
+        return 'string';
+    if (isNumber(value))
+        return 'number';
+    return createError('This should never happen!');
+};
+// Convert to more or less specefic type
+let a = 'hello';
+let b = a; // less specific type
+let c = a; // more specific type
+let d = 'world'; // less specific type
+let e = 'world';
+const addOrConcat = (a, b, c) => {
+    if (c === 'add')
+        return a + b;
+    return `${a}${b}`;
+};
+let myVal = addOrConcat(2, 2, 'concat');
+// Be careful! TS sees no problem - but a string is returned
+let nextVal = addOrConcat(2, 2, 'concat' /* esto esta mal */);
+10;
