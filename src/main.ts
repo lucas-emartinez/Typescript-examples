@@ -215,4 +215,40 @@ let myVal: string = addOrConcat(2,2,'concat') as string
 // Be careful! TS sees no problem - but a string is returned
 let nextVal: number = addOrConcat(2,2,'concat' /* esto esta mal */) as number
 
-10 as string
+//10 as string // error, debemos usar unknown
+
+(10 as unknown) as string // ok - SE LLAMA FORECASTING O DOUBLE ASSERTION - DOUBLE CASTING
+
+///////////////////////// THE DOM ////////////////////////////////
+
+const img = document.querySelector('img')! // NON NULL ASSERTION More specific type
+const myImg = document.getElementById('#img') as HTMLImageElement  // Less specific type
+const nextImage = <HTMLImageElement>document.getElementById('#img') // do not work for tsx in react
+// If i do not assert the HTMLImageElement type, i cannot access the src property
+// IF I assert the type, i can access the src property
+img.src
+
+myImg.src // error, SE PUEDE USAR UNA NOT NULL ASSERTION
+
+
+
+//////////////////////////// CLASSES ///////////////////////////////////
+
+class Coder {
+ 
+    secondLang!: string 
+
+    constructor(
+        public readonly name: string, 
+        public music: string, 
+        private age: number, 
+        protected lang: string = 'Typescript'
+        ) {
+            this.name = name
+            this.music = music
+            this.age = age
+            this.lang = lang
+        }
+}
+
+const Dave = new Coder('Dave', 'Rock', 42)

@@ -136,4 +136,27 @@ const addOrConcat = (a, b, c) => {
 let myVal = addOrConcat(2, 2, 'concat');
 // Be careful! TS sees no problem - but a string is returned
 let nextVal = addOrConcat(2, 2, 'concat' /* esto esta mal */);
-10;
+//10 as string // error, debemos usar unknown
+10; // ok - SE LLAMA FORECASTING O DOUBLE ASSERTION - DOUBLE CASTING
+///////////////////////// THE DOM ////////////////////////////////
+const img = document.querySelector('img'); // NON NULL ASSERTION More specific type
+const myImg = document.getElementById('#img'); // Less specific type
+const nextImage = document.getElementById('#img'); // do not work for tsx in react
+// If i do not assert the HTMLImageElement type, i cannot access the src property
+// IF I assert the type, i can access the src property
+img.src;
+myImg.src; // error, SE PUEDE USAR UNA NOT NULL ASSERTION
+//////////////////////////// CLASSES ///////////////////////////////////
+class Coder {
+    constructor(name, music, age, lang = 'Typescript') {
+        this.name = name;
+        this.music = music;
+        this.age = age;
+        this.lang = lang;
+        this.name = name;
+        this.music = music;
+        this.age = age;
+        this.lang = lang;
+    }
+}
+const Dave = new Coder('Dave', 'Rock', 42);
